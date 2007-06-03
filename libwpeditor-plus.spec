@@ -1,6 +1,6 @@
 %define snap 20070601
-Summary:	In-place editor library
-Summary(pl.UTF-8):	Biblioteka edytora
+Summary:	In-place editor library for Maemo
+Summary(pl.UTF-8):	Biblioteka edytora dla Maemo
 Name:		libwpeditor-plus
 Version:	0.0.%{snap}
 Release:	1
@@ -9,13 +9,13 @@ Group:		Libraries
 Source0:	%{name}-%{snap}.tar.bz2
 # Source0-md5:	dd6a1317380f86b9d54581076b0856c8
 URL:		http://modest.garage.maemo.org/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
-BuildRequires:	glib2-devel
+# preferably with hildon patches
+BuildRequires:	gtk+2-devel >= 1:2.0.0
 BuildRequires:	intltool
 BuildRequires:	libtool
-#BuildRequires:	python-devel
-#BuildRequires:	xulrunner-devel
+BuildRequires:	pkgconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -29,6 +29,7 @@ Summary:	Header files for libwpeditor-plus
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libwpeditor-plus
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	gtk+2-devel >= 1:2.0.0
 
 %description devel
 Header files for libwpeditor-plus.
@@ -40,10 +41,10 @@ Pliki nagłówkowe biblioteki libwpeditor-plus.
 %setup -q -n %{name}
 
 %build
-%{__glib_gettextize}
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 %configure
 %{__make}
@@ -62,7 +63,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog NEWS README
 %attr(755,root,root) %{_libdir}/libwpeditor-plus.so.*.*.*
 
 %files devel
